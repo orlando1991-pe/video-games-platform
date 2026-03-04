@@ -1,0 +1,6 @@
+backend/.gitignore
+fronted/.gitignore
+backend/node_modules
+fronted/node_modules
+backend/package-lock.json
+fronted/package-lock.json
