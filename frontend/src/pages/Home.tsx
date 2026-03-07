@@ -2,17 +2,17 @@ import Navbar from "../components/Navbar"
 import GameCard from "../components/GameCard"
 import { useEffect, useState } from "react"
 import axios from "axios"
-
+const API = import.meta.env.VITE_API_URL
 export default function Home(){
 
  const [games,setGames]=useState([])
  const [page,setPage]=useState(1)
  const [totalPages,setTotalPages]=useState(1)
-
+  console.log("THIS IS API:::", `${API}/api/games?page=${page}&limit=12`)
  useEffect(()=>{
 
   axios
-   .get(`http://localhost:3000/api/games?page=${page}&limit=12`)
+   .get(`${API}/api/games?page=${page}&limit=12`)
    .then(res=>{
     setGames(res.data.data)
     setTotalPages(res.data.totalPages)

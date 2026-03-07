@@ -1,22 +1,30 @@
-version: "3.8"
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: videogames
-    ports:
-      - "5432:5432"
+version: "3.9"
 
+services:
   backend:
     build: ./backend
+    container_name: games-api
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
+    environment:
+      DB_HOST: host.docker.internal
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: videogames
+      DB_PORT: 5432
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
 
   frontend:
     build: ./frontend
+    container_name: games-web
     ports:
       - "5173:5173"
+    environment:
+      VITE_API_URL: https://2bxcdcs4-3000.uks1.devtunnels.ms
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

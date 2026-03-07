@@ -2,16 +2,16 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Navbar from "../components/Navbar"
-
+const API = import.meta.env.VITE_API_URL
 export default function GameDetail(){
-
+  
  const {id} = useParams()
  const [game,setGame]=useState<any>(null)
 
  useEffect(()=>{
 
   axios
-   .get(`http://localhost:3000/api/games/${id}`)
+   .get(`${API}/api/games/${id}`)
    .then(res=>setGame(res.data))
 
  },[id])
@@ -24,7 +24,7 @@ export default function GameDetail(){
 
    <Navbar/>
 
-   <div className="max-w-6xl mx-auto p-8 flex gap-10">
+   <div className="max-w-6xl mx-auto p-6 flex flex-col md:flex-row gap-8">
 
     <img
      src={game.image_url}
