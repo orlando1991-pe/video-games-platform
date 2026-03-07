@@ -19,7 +19,7 @@ export default function Signup(){
  const [loading,setLoading] = useState(false)
  const [error,setError] = useState("")
 
- const handleChange = (e:any)=>{
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setForm({
    ...form,
    [e.target.name]:e.target.value

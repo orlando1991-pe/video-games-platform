@@ -10,9 +10,9 @@ export default function Login(){
  const [email,setEmail] = useState("")
  const [password,setPassword] = useState("")
  const [error,setError] = useState("")
- const [loading,setLoading] = useState(false)
+ const [loading,setLoading] = useState(false) 
 
- const login = async(e:any)=>{
+const login = async (e: React.FormEvent<HTMLFormElement>) => {
 
   e.preventDefault()
 
