@@ -12,11 +12,7 @@ export default function Navbar() {
       <div className="flex gap-6">
 
         <Link to="/" className="hover:text-green-400">
-          Home
-        </Link>
-
-        <Link to="/favorites" className="hover:text-green-400">
-          Favorites
+          Inicio
         </Link>
 
         <Link to="/login" className="hover:text-green-400">

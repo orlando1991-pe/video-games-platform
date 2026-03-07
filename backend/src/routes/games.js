@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
  const page = parseInt(req.query.page) || 1
  const limit = parseInt(req.query.limit) || 20
  const offset = (page - 1) * limit
-
+ console.log("THIS IS req: ", req.query);
  const games = await pool.query(
   `SELECT * FROM games
    ORDER BY created_at DESC
@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-
+ console.log("THIS IS req: ", req.params);
  const game = await pool.query(
   "SELECT * FROM games WHERE id=$1",
   [req.params.id]
