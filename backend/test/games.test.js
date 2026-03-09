@@ -1,6 +1,14 @@
 const request = require("supertest")
 const app = require("../src/app")
 
+jest.mock("../src/config/db", () => ({
+  query: jest.fn().mockResolvedValue({
+    rows: [
+      { id: 1, title: "Test Game", genre: "Action" }
+    ]
+  })
+}))
+
 describe("GET /api/games", () => {
 
   it("should return games list", async () => {
@@ -8,7 +16,7 @@ describe("GET /api/games", () => {
     const res = await request(app).get("/api/games")
 
     expect(res.statusCode).toBe(200)
-    expect(res.body).toBeDefined()
+    expect(res.body.length).toBeGreaterThan(0)
 
   })
 
