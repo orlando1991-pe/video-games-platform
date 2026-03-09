@@ -1,15 +1,9 @@
-const request = require("supertest")
-const app = require("../src/app")
+const express = require("express")
 
-describe("GET /api/games", () => {
+const app = express()
 
-  it("should return games list", async () => {
+app.use(express.json())
 
-    const res = await request(app).get("/api/games")
+app.use("/api/games", require("./routes/games"))
 
-    expect(res.statusCode).toBe(200)
-    expect(res.body).toBeDefined()
-
-  })
-
-})
+module.exports = app
