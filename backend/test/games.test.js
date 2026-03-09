@@ -13,3 +13,15 @@ describe("GET /api/games", () => {
   })
 
 })
+
+describe("GET /api/games/:id", () => {
+
+  it("should return game detail", async () => {
+
+    const res = await request(app).get("/api/games/1")
+
+    expect(res.statusCode).not.toBe(500)
+
+  })
+
+})
