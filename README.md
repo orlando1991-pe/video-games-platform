@@ -104,6 +104,32 @@ Ejemplo SQL:
 ```sql
 CREATE DATABASE videogames;
 ```
+luego conectarse a la DB videogames y ejecutar: 
+
+CREATE TABLE public.games (
+	id uuid NOT NULL DEFAULT gen_random_uuid(),
+	title text NOT NULL,
+	description text NULL,
+	genre text NULL,
+	image_url text NULL,
+	rating numeric(2, 1) NULL,
+	created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT games_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public.users (
+	id uuid NOT NULL,
+	email text NOT NULL,
+	username text NOT NULL,
+	"password" text NOT NULL,
+	first_name text NULL,
+	last_name text NULL,
+	phone text NULL,
+	created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT users_email_key UNIQUE (email),
+	CONSTRAINT users_pkey PRIMARY KEY (id),
+	CONSTRAINT users_username_key UNIQUE (username)
+);
 
 ---
 
@@ -118,7 +144,7 @@ El proyecto incluye un script que inserta **más de 100 videojuegos** en la base
 Ejecutar el seed desde el contenedor backend:
 
 ```
-docker exec -it games-api node seed.js
+desde el backend: node seed.js
 ```
 
 Si ejecutas el backend sin Docker:
