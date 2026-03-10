@@ -242,17 +242,6 @@ Infraestructura
 
 ---
 
-# 🚀 Posibles mejoras futuras
-
-* Sistema de favoritos persistente
-* Buscador de videojuegos
-* Filtros por género
-* Recomendaciones
-* Banner de juegos destacados
-* Autenticación OAuth
-
----
-
 # 👨‍💻 Autor
 
 Proyecto desarrollado como parte de un **TFM / proyecto full-stack** para explorar arquitecturas modernas con React, Node y Docker.
