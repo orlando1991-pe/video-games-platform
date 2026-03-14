@@ -23,7 +23,6 @@ jobs:
           cache: "npm"
           cache-dependency-path: |
             backend/package-lock.json
-            frontend/yarn.lock
 
       - name: Install backend dependencies
         run: |
