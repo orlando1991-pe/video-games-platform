@@ -23,4 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 seed.js
-yarn.lock
