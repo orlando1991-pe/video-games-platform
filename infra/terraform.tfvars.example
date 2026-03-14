@@ -5,8 +5,8 @@ location     = "francecentral"
 app_service_sku = "B1"
 acr_sku         = "Basic"
 
-postgres_admin_username = "TU USERNAME"
-postgres_admin_password = "CREA TU PROPIO USUARIO"
+postgres_admin_username = "postgree"
+postgres_admin_password = "postgree"
 
 postgres_db_name    = "videogames"
 postgres_version    = "16"
