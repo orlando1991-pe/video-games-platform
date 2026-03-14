@@ -132,7 +132,6 @@ CREATE TABLE public.users (
 );
 
 ---
-
 # 🌱 Ejecutar el Seed (datos de videojuegos)
 
 El proyecto incluye un script que inserta **más de 100 videojuegos** en la base de datos para poder probar:
@@ -155,6 +154,9 @@ node backend/seed.js
 
 ---
 
+#  Exponer desde el terminal de VS CODE el puerto 3000 y copiarlo en en .env de frontend y en docker-compose. yml: VITE_API_URL
+
+--------
 # 📚 Endpoints API
 
 ### Obtener juegos paginados

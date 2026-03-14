@@ -1,0 +1,20 @@
+project_name = "video-games-platform"
+environment  = "dev"
+location     = "francecentral"
+
+app_service_sku = "B1"
+acr_sku         = "Basic"
+
+postgres_admin_username = "TU USERNAME"
+postgres_admin_password = "CREA TU PROPIO USUARIO"
+
+postgres_db_name    = "videogames"
+postgres_version    = "16"
+postgres_sku_name   = "B_Standard_B1ms"
+postgres_storage_mb = 32768
+
+backend_container_image  = "backend:dev"
+frontend_container_image = "frontend:dev"
+
+backend_port  = "3000"
+frontend_port = "80"
