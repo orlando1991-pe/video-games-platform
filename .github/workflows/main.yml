@@ -17,17 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
-          cache-dependency-path: |
-            backend/package-lock.json
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install backend dependencies
         run: |
           cd backend
-          npm install
+          npm ci
 
       - name: Backend tests
         run: |
@@ -37,22 +38,22 @@ jobs:
       - name: Install frontend dependencies
         run: |
           cd frontend
-          npm install
+          yarn install --frozen-lockfile
 
       - name: TypeScript check
         run: |
           cd frontend
-          npx tsc --noEmit
+          yarn tsc --noEmit
 
       - name: Frontend tests
         run: |
           cd frontend
-          npm run test
+          yarn test
 
       - name: Build frontend
         run: |
           cd frontend
-          npm run build
+          yarn build
 
       - name: Backend security audit
         run: |
