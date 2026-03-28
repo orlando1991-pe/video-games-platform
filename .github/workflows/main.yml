@@ -68,7 +68,7 @@ jobs:
       # 🐳 Build + Tag
       - name: Build Docker image
         run: |
-          docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} .
+          docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} ./backend
 
       # 📤 Push
       - name: Push Docker image
