@@ -35,7 +35,7 @@ resource "azurerm_container_registry" "acr" {
 resource "azurerm_service_plan" "plan" {
   name                = local.plan_name
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.rm_resource_group.rg.location
+  location            = data.azurerm_resource_group.rg.location
   os_type             = "Linux"
   sku_name            = var.app_service_sku
 }
@@ -43,7 +43,7 @@ resource "azurerm_service_plan" "plan" {
 resource "azurerm_postgresql_flexible_server" "postgres" {
   name                   = local.postgres_name
   resource_group_name    = data.azurerm_resource_group.rg.name
-  location               = data.rm_resource_group.rg.location
+  location               = data.azurerm_resource_group.rg.location
   version                = var.postgres_version
   administrator_login    = var.postgres_admin_username
   administrator_password = var.postgres_admin_password
@@ -77,7 +77,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure" {
 resource "azurerm_linux_web_app" "backend" {
   name                = local.backend_app_name
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.rm_resource_group.rg.location
+  location            = data.azurerm_resource_group.rg.location
   service_plan_id     = azurerm_service_plan.plan.id
      
   https_only = true
@@ -117,7 +117,7 @@ resource "azurerm_linux_web_app" "backend" {
 resource "azurerm_linux_web_app" "frontend" {
   name                = local.frontend_app_name
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.rm_resource_group.rg.location
+  location            = data.azurerm_resource_group.rg.location
   service_plan_id     = azurerm_service_plan.plan.id
 
   https_only = true
