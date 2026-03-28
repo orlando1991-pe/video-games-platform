@@ -32,12 +32,9 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled       = false
 }
 
-resource "azurerm_service_plan" "plan" {
+data "azurerm_service_plan" "plan" {
   name                = local.plan_name
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
-  os_type             = "Linux"
-  sku_name            = var.app_service_sku
 }
 
 resource "azurerm_postgresql_flexible_server" "postgres" {
@@ -78,7 +75,7 @@ resource "azurerm_linux_web_app" "backend" {
   name                = local.backend_app_name
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
-  service_plan_id     = azurerm_service_plan.plan.id
+  service_plan_id     = data.azurerm_service_plan.plan.id
      
   https_only = true
 
@@ -118,7 +115,7 @@ resource "azurerm_linux_web_app" "frontend" {
   name                = local.frontend_app_name
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
-  service_plan_id     = azurerm_service_plan.plan.id
+  service_plan_id     = data.azurerm_service_plan.plan.id
 
   https_only = true
 
