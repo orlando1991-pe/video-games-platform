@@ -10,7 +10,7 @@ on:
 env:
   ACR_NAME: testvideogame   # 👈 cambia esto
   IMAGE_NAME: videogame-app
-  RESOURCE_GROUP: my-rg
+  RESOURCE_GROUP: my-rg 
 
 jobs:
 
