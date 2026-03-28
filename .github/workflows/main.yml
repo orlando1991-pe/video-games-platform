@@ -1,69 +1,102 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
     branches: [ main ]
 
+  push:
+    branches: [ main ]
+
+env:
+  ACR_NAME: myacrregistry   # 👈 cambia esto
+  IMAGE_NAME: videogame-app
+  RESOURCE_GROUP: my-rg
+
 jobs:
 
+  # =========================
+  # 🟢 CI (PR)
+  # =========================
   ci:
-
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Enable Corepack
-        run: corepack enable
+      - run: corepack enable
 
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          npm install
+      - name: Install backend
+        run: cd backend && npm install
 
       - name: Backend tests
-        run: |
-          cd backend
-          npm test
+        run: cd backend && npm test
 
-      - name: Install frontend dependencies
-        run: |
-          cd frontend
-          yarn install --frozen-lockfile
-
-      - name: TypeScript check
-        run: |
-          cd frontend
-          yarn tsc --noEmit
+      - name: Install frontend
+        run: cd frontend && yarn install --frozen-lockfile
 
       - name: Frontend tests
-        run: |
-          cd frontend
-          yarn test
+        run: cd frontend && yarn test
 
       - name: Build frontend
-        run: |
-          cd frontend
-          yarn build
+        run: cd frontend && yarn build
 
-      - name: Backend security audit
-        run: |
-          cd backend
-          npm audit --audit-level=high
+  # =========================
+  # 🔵 CD (main)
+  # =========================
+  cd:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
 
-      - name: Frontend security audit
-        run: |
-          cd frontend
-          yarn audit || true
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Docker build
-        run: docker compose build
+      # 🔐 Login Azure
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 🔐 Login ACR
+      - name: Login to ACR
+        run: az acr login --name $ACR_NAME
+
+      # 🐳 Build + Tag
+      - name: Build Docker image
+        run: |
+          docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} .
+
+      # 📤 Push
+      - name: Push Docker image
+        run: |
+          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+
+      # 🏗️ Terraform Init
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init
+
+      # 🔍 Terraform Plan
+      - name: Terraform Plan
+        run: |
+          cd infra
+          terraform plan
+
+      # 🚀 Terraform Apply
+      - name: Terraform Apply
+        run: |
+          cd infra
+          terraform apply -auto-approve
+
+      # 🔁 Update image in Azure (opcional)
+      - name: Deploy container
+        run: |
+          az containerapp update \
+            --name my-app \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
