@@ -90,7 +90,10 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform plan
+          terraform plan -no-color \
+            -var="backend_container_image=$ACR_NAME.azurecr.io/videogame-app:${{ github.sha }}" \
+            -var="frontend_container_image=$ACR_NAME.azurecr.io/frontend:${{ github.sha }}" \
+            -var="postgres_admin_password=${{ secrets.POSTGRES_PASSWORD }}"
         env:
           TF_INPUT: false
 
@@ -100,7 +103,10 @@ jobs:
           cd infra
           terraform apply -auto-approve \
             -var="backend_container_image=$ACR_NAME.azurecr.io/videogame-app:${{ github.sha }}" \
-            -var="frontend_container_image=$ACR_NAME.azurecr.io/frontend:${{ github.sha }}"
+            -var="frontend_container_image=$ACR_NAME.azurecr.io/frontend:${{ github.sha }}" \
+            -var="postgres_admin_password=${{ secrets.POSTGRES_PASSWORD }}"
+        env:
+          TF_INPUT: false
 
       # 🔁 Update image in Azure (opcional)
       - name: Deploy container
