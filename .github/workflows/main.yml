@@ -74,6 +74,11 @@ jobs:
       - name: Push Docker image
         run: |
           docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
 
       # 🏗️ Terraform Init
       - name: Terraform Init
@@ -91,7 +96,9 @@ jobs:
       - name: Terraform Apply
         run: |
           cd infra
-          terraform apply -auto-approve
+          terraform apply -auto-approve \
+            -var="backend_container_image=$ACR_NAME.azurecr.io/videogame-app:${{ github.sha }}" \
+            -var="frontend_container_image=$ACR_NAME.azurecr.io/frontend:${{ github.sha }}"
 
       # 🔁 Update image in Azure (opcional)
       - name: Deploy container

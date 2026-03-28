@@ -72,3 +72,11 @@ variable "frontend_port" {
   type    = string
   default = "80"
 }
+
+variable "backend_container_image" {
+  description = "Imagen Docker backend"
+}
+
+variable "frontend_container_image" {
+  description = "Imagen Docker frontend"
+}
