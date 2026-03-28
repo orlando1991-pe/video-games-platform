@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env:
-  ACR_NAME: myacrregistry   # 👈 cambia esto
+  ACR_NAME: testvideogame   # 👈 cambia esto
   IMAGE_NAME: videogame-app
   RESOURCE_GROUP: my-rg
 
