@@ -91,6 +91,8 @@ jobs:
         run: |
           cd infra
           terraform plan
+        env:
+          TF_INPUT: false
 
       # 🚀 Terraform Apply
       - name: Terraform Apply
